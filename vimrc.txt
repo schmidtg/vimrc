@@ -1,0 +1,199 @@
+"Maintained by: Graham Schmidt
+" Adapted from: Jeffrey Way
+" http://net.tutsplus.com
+"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Forget compatibility with Vi. Who cares.
+set nocompatible
+
+"Enable filetypes
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
+
+" Set to auto read when a file is changed from the outside
+"set autoread
+"Write the old file out when switching between files.
+set autowrite
+
+"Show line numbers
+set number
+
+"Ever notice a slight lag after typing the leader key + command? This lowers
+"the timeout.
+set timeoutlen=500
+
+""""""""""""""""""""""
+" => Colors and Fonts
+""""""""""""""""""""""
+syntax on
+syntax enable "Enable syntax highlighting
+colorscheme solarized
+set guifont=Monaco:h12
+set background=dark
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Display current cursor position in lower right corner.
+set ruler
+set linespace=3
+
+"Switch between buffers without saving
+set hidden
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Search Options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch "make search act like search in modern browsers
+set showmatch "Show matching bracets when text indicator is over them
+set hlsearch
+" case insensitive search
+set ignorecase
+set smartcase " ignore case if search pattern is all lowercase,
+                  "    case-sensitive otherwise
+
+"Show command in bottom right portion of the screen
+set showcmd
+"
+"Clear search when you press ,/
+nmap <silent> ,/ :nohlsearch<CR>
+
+""""""""""""""""""""""
+" => Text, tab and indent related
+""""""""""""""""""""""
+set expandtab
+set shiftwidth=4
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set softtabstop=4
+set tabstop=4
+set smarttab " insert tabs on the start of a line according to
+                  "    shiftwidth, not tabstop
+set splitbelow
+set backspace=indent,eol,start
+                  " allow backspacing over everything in insert mode
+"Prefer a slightly higher line height
+set linespace=3
+"Indent stuff
+set autoindent
+set smartindent
+set copyindent "copy the previous indentation on autoindenting
+
+"Better wrapping
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set wildmode=list:longest "For autocompletion
+set wildignore=*.swp,*.bak,*.pyc,*.class
+"set laststatus=2
+
+"Hide MacVim toolbar by default
+set go-=T
+
+"If CSS file, auto indent stuff inside braces
+autocmd FileType css set smartindent
+
+"""""""""""""""""""""
+" String buffer size
+"""""""""""""""""""""
+set synmaxcol=4000
+
+set foldenable
+
+"Hide mouse when typing
+set mousehide
+
+"Hard-wrap paragraphs of text
+nnoremap <leader>q gqip
+
+"Set up an HTML5 template for all new .html files
+"autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
+
+"Example for adding abbreviations - triggered by the spacebar
+"iabbrev mysite ftp://jeff-way.com@jeffrey-way.com/domains/
+
+"Opens a vertical split and switches over (\v)
+nnoremap <leader>v <C-w>v<C-w>l
+
+"Load the current buffer in Firefox
+abbrev ff :! open -a "Firefox6.app" %:p<cr>
+
+"Map a change directory to the desktop
+nmap ,d :cd ~/Desktop<cr>:e.<cr>
+
+"Shortcut for editing my vimrc file
+nmap ,ev :tabedit $MYVIMRC<cr>
+
+"Map no search highlighting
+nmap ,ns :set nohlsearch
+
+"Change zen coding expand key to shift + 3
+let g:user_zen_expandabbr_key = '<C-e>'
+
+"Faster shortcut for commenting. Requires T-Comment plugin
+map ,c <c-_><c-_>
+
+"Open Peepcode with CTRL-O
+"map <leader>p <C-o>
+
+"Saves time
+nmap <space> :
+
+"Map escape to ,e
+imap ,e <esc>
+
+"Map escape key to jj -- much faster
+imap jj <esc>
+
+"Delete all buffers (via Derek Wyatt)
+nmap <silent> ,da :exec "1," . bufnr('$') . "bd"<cr>
+
+"Map code completion to , + tab
+imap ,<tab> <C-x><C-o>
+
+"Map command-t to work with leader-c
+map <leader>c <c-_><c-_>
+
+"------------------------"
+"NERDTREE PLUGIN SETTINGS
+"------------------------"
+"Shortcut for NERDTreeToggle
+nmap ,nt :NERDTreeToggle
+
+"Show hidden files in NerdTree
+let NERDTreeShowHidden=1
+
+"Automatically change current directory to that of the file in the buffer
+autocmd BufEnter * cd %:p:h
+
+"Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+"Automatically convert all tabs to spaces after saving
+autocmd BufWritePre * :retab!
+
+"Automatically remove all trailing whitespace after saving
+autocmd BufWritePre * :%s/\s\+$//e
+
+"Map CTRL-b to delete current buffers without closing the windows
+map <leader>b :Bclose<CR>
+
+"TwiddleCase"
+"you can visually select text then press ~ to convert the text to UPPER CASE, then to lower case, then to Title Case
+function! TwiddleCase(str)
+  if a:str ==# toupper(a:str)
+    let result = tolower(a:str)
+  elseif a:str ==# tolower(a:str)
+    let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+  else
+    let result = toupper(a:str)
+  endif
+  return result
+endfunction
+vnoremap ~ ygv"=TwiddleCase(@"")<CR>Pgv
