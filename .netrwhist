@@ -1,7 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='ftp://analytics@hfmanalytics.com/httpdocs/css/'
 let g:netrw_dirhist_2='ftp://analytics@hfmanalytics.com/'
 let g:netrw_dirhist_3='ftp://analytics@hfmanalytics.com/httpdocs/pages/'
 let g:netrw_dirhist_4='ftp://analytics@hfmanalytics.com/httpdocs/reports/'
 let g:netrw_dirhist_5='ftp://analytics@hfmanalytics.com/httpdocs/reports/tech/'
+let g:netrw_dirhist_6='/Users/graham.schmidt/.vim'
