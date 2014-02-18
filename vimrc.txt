@@ -167,6 +167,11 @@ nmap ,nt :NERDTreeToggle
 "Show hidden files in NerdTree
 let NERDTreeShowHidden=1
 
+"Open NERDTree in the current folder
+set autochdir
+let NERDTreeChDirMode=2
+nnoremap <leader>n :NERDTree .<CR>
+
 "Automatically change current directory to that of the file in the buffer
 autocmd BufEnter * cd %:p:h
 
@@ -197,3 +202,20 @@ function! TwiddleCase(str)
   return result
 endfunction
 vnoremap ~ ygv"=TwiddleCase(@"")<CR>Pgv
+
+"--- CTRLP---------"
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" ctrlp stuff
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_root_markers = ['.ctrlp']
+let g:ctrlp_use_caching = 0
+
+" Configure ctrlp for SPEED
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ tags
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
+"---cdpath---"
+set cdpath=$V2_HOME,$V2_HOME/apps,$V2_HOME/lib
